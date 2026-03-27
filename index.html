@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Browser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 150px;
+            background-color: #f0f0f0;
+        }
+        input[type="text"] {
+            width: 400px;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 24px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 24px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mini Browser</h1>
+    <input type="text" id="searchBar" placeholder="Type website or keyword...">
+    <button onclick="goToWebsite()">Go</button>
+
+    <script>
+        function goToWebsite() {
+            let input = document.getElementById("searchBar").value.trim();
+
+            if (!input) return;
+
+            // If input contains spaces, treat it as a search query
+            if (input.includes(" ")) {
+                input = "https://duckduckgo.com/?q=" + encodeURIComponent(input);
+            } else {
+                // Check if input looks like a URL
+                if (!input.startsWith("http://") && !input.startsWith("https://")) {
+                    // If it contains a dot (like example.org), use as-is
+                    if (input.includes(".")) {
+                        input = "https://" + input;
+                    } else {
+                        // Otherwise, assume .com
+                        input = "https://" + input + ".com";
+                    }
+                }
+            }
+
+            window.open(input, "_blank");
+        }
+
+        // Allow pressing Enter to search
+        document.getElementById("searchBar").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") goToWebsite();
+        });
+    </script>
+</body>
+</html>
